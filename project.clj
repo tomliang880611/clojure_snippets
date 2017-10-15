@@ -4,7 +4,8 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/data.csv "0.1.3"]]
+                 [org.clojure/data.csv "0.1.3"]
+                 [taoensso.com/timbre "0.5.1-SNAPSHOT"]]
   :main ^:skip-aot my-tool-kit.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})

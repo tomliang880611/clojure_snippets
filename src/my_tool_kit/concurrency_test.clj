@@ -2,15 +2,15 @@
 
 ;;;;;;;;;;;;;;;; future
 ;; define futher
-(future (Thread/sleep 4000)
-        (println "It will be printed after 4 sec"))
-
-(println "printed now....")
+(do
+  (future (Thread/sleep 4000)
+          (println "It will be printed after 4 sec"))
+  (println "printed now...."))
 
 ;; deref/@ or get result from futher
 (let
     [result (future
-              (println "this gets executed once...")
+              (pr  intln "this gets executed once...")
               (Thread/sleep 4000)
               5)]
   (println "deref:" (deref result))
@@ -101,9 +101,11 @@
 ;; using futher, promise
 (time
  (let [butter-promise (promise)]
-   (doseq [butter [yak-butter-international butter-than-nothing baby-got-yak]]
-     (future (if-let [satisfactory-butter (satisfactory? (mock-api-call butter))]
-               (deliver butter-promise satisfactory-butter))))
+   (doseq [butter
+           [yak-butter-international butter-than-nothing baby-got-yak]]
+     (future
+       (if-let [satisfactory-butter (satisfactory? (mock-api-call butter))]
+         (deliver butter-promise satisfactory-butter))))
    (println "And the winner is :" @butter-promise)))
 
 

@@ -20,7 +20,8 @@
 ; destruction with remaining
 (let [[a & remaining] my-list]
   (println a)
-  (println remaining))
+  (println remaining)
+  (prn my-list))
 
 ; destruction with some item ignored
 (def names ["Michael" "Amber" "Aaron" "Nick" "Earl" "Joe"])
@@ -112,11 +113,12 @@
 (let [{:keys [:person/name :person/age :hobby/hobbies]} human]
   (println name "is" age "and likes" hobbies))
 
+;;; deconstruction with & for rest
 (defn f-with-options
-  [a b & {:keys [option]}]
-  (println "Got" a b option))
+  [a b & {:keys [option beautify]}]
+  (println "Got" a b option beautify))
 
-(f-with-options "abc" "cdf" :option true)
+(f-with-options "abc" "cdf" :option true :beautify false)
 
 (defn print-coordinate [point]
   (let [[x y z] point]
@@ -124,6 +126,7 @@
 
 (print-coordinate [1 2 3])
 
+;;; deconstruction vector
 (defn print-coordinate-2 [[x y z]]
   (println x y z))
 
@@ -162,7 +165,26 @@
 
 (print-contact-info-2 john-smith)
 
+(prn "testing prn function")
+(pr "testing prn function")
+
 ;; macros
 (destructure '[[x & remaining :as all] numbers])
 ;; => [vec__20405 numbers x (clojure.core/nth vec__20405 0 nil) remaining (clojure.core/nthnext vec__20405 1) all vec__20405]
 
+(def test-argv ["word-count" ["word" "count"] {:prepare true}
+                ["conf" "context" "collector"]])
+
+(let [[name output-spec & [opts & impl :as all]] test-argv]
+  (prn "name" name)
+  (prn "output-spec" output-spec)
+  (prn "opts" opts)
+  (prn "impl" impl)
+  (prn "all" all))
+
+;;; reify
+(str
+ (reify
+   java.lang.Object
+   (toString [this]
+     "this is a string")))
