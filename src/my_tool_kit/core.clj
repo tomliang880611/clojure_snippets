@@ -1,5 +1,6 @@
 (ns my-tool-kit.core
-  (:gen-class))
+  (:gen-class)
+  (import java.util.Date))
 
 (defn -main
   "I don't do a whole lot ... yet."
@@ -188,3 +189,34 @@
    java.lang.Object
    (toString [this]
      "this is a string")))
+
+
+(def nested-data
+  [{:starttime (Date.)
+    :ticket_id "ticket_id test try 1"
+    :test 1
+    :test2 (Date.)}
+   {:starttime (Date.)
+    :ticket_id "ticketddddd_id test try 1"
+    :test 2}])
+
+
+(defn convert-date
+  [{:keys [starttime] :as msg}]
+  (assoc msg :starttime (.getDay ^Date starttime)))
+
+
+(def convert-date-v2
+  (mk-convert #(if (instance? Date %) (.getDate %) %))) 
+
+
+(defn mk-convert [convert-fn]
+  (fn
+    [msg]
+    (loop [res msg
+           ret msg]
+      (if (nil? res)
+        ret
+        (let [[k v] (first res)
+              v (convert-fn v)]
+          (recur (next res) (assoc ret k v)))))))

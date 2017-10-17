@@ -7,5 +7,6 @@
                  [org.clojure/data.csv "0.1.3"]
                  [taoensso.com/timbre "0.5.1-SNAPSHOT"]]
   :main ^:skip-aot my-tool-kit.core
+  :resource-paths ["lib/*"]
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
